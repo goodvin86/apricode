@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Студии разработки{% endblock %}
+
+{% block body %}
+
+    <div class="h-content">
+        <div class="search">
+
+        </div>
+        <div class="caption">
+            Студии разработки
+        </div>
+        <div class="operations">
+            <a href="{{ path('app_developer_new') }}">
+                <button class="button btn btn-sm">Добавить</button>
+            </a>
+        </div>
+    </div>
+
+    <div class="table_div">
+        <div class="thead_div">
+            <div class="row_div">
+                <div class="cell_thead_div_id">Id</div>
+                <div class="cell_thead_div">Название</div>
+                <div class="cell_thead_div_oper">Операции</div>
+            </div>
+        </div>
+
+        <div class="tbody_div">
+            {% for developer in developers %}
+                <div class="row_div" id="row_{{ developer.id }}">
+                    <div class="cell_thead_div_id">{{ developer.id }}</div>
+                    <div class="cell_thead_div">{{ developer.name }}</div>
+                    <div class="cell_div_oper">
+                        <div>
+                            <a href="{{ path('app_developer_edit', {'id': developer.id}) }}">
+                                <button class="btn btn-sm btn-secondary button_edit">Изменить</button>
+                            </a>
+                        </div>
+                        <div {{ stimulus_controller('submit-confirm', {
+                            title: "Удалить студию разработки?",
+                            text: developer.name,
+                            formUrl: path('app_developer_delete', {'id': developer.id})
+                        }) }}>
+                            <button
+                                    class="btn btn-sm btn-secondary button_delete"
+                                    data-action="submit-confirm#onSubmit">
+                                Удалить
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="row_empty">
+                    Записи не найдены
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}

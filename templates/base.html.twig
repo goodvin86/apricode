@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Видеоигры{% endblock %}</title>
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+    {% endblock %}
+    {% block javascripts %}
+        {{ encore_entry_script_tags('app') }}
+    {% endblock %}
+
+</head>
+<body>
+    <div class="main">
+        <div class="menu">
+            <nav class="sidebar">
+                <div class="text">БД Игры</div>
+                <ul class="main_side">
+                    <li class="{{'app_game'|is_active }}">
+                        <a href="{{ path('app_game')}}" id="1">Игры</a>
+                    </li>
+                    <li class="{{'app_developer'|is_active }}">
+                        <a href="{{ path('app_developer')}}" id="2">Разработчики</a>
+                    </li>
+                    <li class="{{'app_genre'|is_active }}">
+                        <a href="{{ path('app_genre')}}" id="3">Жанры</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div class="content">
+            {% block body %}{% endblock %}
+        </div>
+    </div>
+    </body>
+</html>

@@ -1,0 +1,32 @@
+<div class="tbody_div">
+    {% for game in games %}
+        <div class="row_div" id="row_{{ game.id }}">
+            <div class="cell_thead_div_id">{{ game.id }}</div>
+            <div class="cell_thead_div">{{ game.name }}</div>
+            <div class="cell_thead_div">{{ game.developer_name }}</div>
+            <div class="cell_thead_div">{{ game.genre_name }}</div>
+            <div class="cell_div_oper">
+                <div>
+                    <a href="{{ path('app_game_edit', {'id': game.id}) }}">
+                        <button class="btn btn-secondary btn-sm button_edit">Изменить</button>
+                    </a>
+                </div>
+                <div {{ stimulus_controller('submit-confirm', {
+                    title: "Удалить игру?",
+                    text: game.name,
+                    formUrl: path('app_game_delete', {'id': game.id})
+                }) }}>
+                    <button
+                            class="btn btn-secondary btn-sm button_delete"
+                            data-action="submit-confirm#onSubmit">
+                        Удалить
+                    </button>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="row_empty">
+            Записи не найдены
+        </div>
+    {% endfor %}
+</div>

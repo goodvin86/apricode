@@ -1,0 +1,77 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Игры{% endblock %}
+
+{% block body %}
+    <div {{ stimulus_controller('search-preview', { url: path('app_game') }) }}  >
+        <div class="h-content">
+            <div class="search">
+                <select name="q" data-action="search-preview#onSearch">
+                    <option value="0">Все жанры</option>
+                    {% for genre in genres %}
+                    <option value="{{ genre.id }}">{{ genre.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="caption">
+                Игры
+            </div>
+            <div class="operations">
+                <a href="{{ path('app_game_new') }}">
+                    <button class="button btn btn-sm">Добавить</button>
+                </a>
+            </div>
+        </div>
+
+        <div class="table_div">
+            <div class="thead_div">
+                <div class="row_div">
+                    <div class="cell_thead_div_id">Id</div>
+                    <div class="cell_thead_div">Название</div>
+                    <div class="cell_thead_div">Студия разработчик</div>
+                    <div class="cell_thead_div">Жанр</div>
+                    <div class="cell_thead_div_oper">Операции</div>
+                </div>
+            </div>
+
+            <div class="search-preview" data-search-preview-target="result">
+
+                <div class="tbody_div">
+                    {% for game in games %}
+                        <div class="row_div" id="row_{{ game.id }}">
+                            <div class="cell_thead_div_id">{{ game.id }}</div>
+                            <div class="cell_thead_div">{{ game.name }}</div>
+                            <div class="cell_thead_div">{{ game.developer_name }}</div>
+                            <div class="cell_thead_div">{{ game.genre_name   }}</div>
+                            <div class="cell_div_oper">
+                                <div>
+                                    <a href="{{ path('app_game_edit', {'id': game.id}) }}">
+                                        <button class="btn btn-secondary btn-sm button_edit">Изменить</button>
+                                    </a>
+                                </div>
+                                <div {{ stimulus_controller('submit-confirm', {
+                                    title: "Удалить игру?",
+                                    text: game.name,
+                                    formUrl: path('app_game_delete', {'id': game.id})
+                                }) }}>
+                                    <button
+                                            class="btn btn-secondary btn-sm button_delete"
+                                            data-action="submit-confirm#onSubmit">
+                                        Удалить
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="row_empty">
+                            Записи не найдены
+                        </div>
+                    {% endfor %}
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
